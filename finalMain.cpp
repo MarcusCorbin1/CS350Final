@@ -4,14 +4,12 @@
 #include <cstdlib>
 #include <bitset>
 #include <string>
-#include <limits>
-#include <type_traits>
-#include <string>
-#include <vector>
+
 
 using namespace std;
 
 void decode(void);
+void multiply(int Hmat[3][7], int segMat[7][1], int res[3][1]);
 
 string fileName, concat;
 ifstream infile; 
@@ -95,7 +93,7 @@ void decode(void)
 				//~ cout << buffer[5];
 				//~ cout << buffer[6]<< endl;
 				
-				char strStore[7][1];
+				int strStore[7][1];
 				int k = 0;
 				
 				// Convert the string to a 1x7 Matrix
@@ -103,12 +101,13 @@ void decode(void)
 				{
 					for (int b = 0; b < 1; b++)
 					{
-						strStore[a][b] = str[k];
+						strStore[a][b] = str[k]-48; // Minus 48 to get 0 or 1
+						//cout << "strStore[a][b] is " << strStore[a][b] << "\n";
 						k++;
 					}
 				}
 				
-				multiply (strStore, Hmatrix, res);
+				multiply (Hmatrix, strStore, res);
 				
 				//~ // Test to print out matrix
 				//~ cout << "Test Matrix" << endl;
@@ -127,6 +126,18 @@ void decode(void)
 				
 				//~ cout << endl;
 				
+				
+				//~ cout << "Result Matrix \n";
+				//~ for (int i = 0; i < 3; i++)
+				//~ {
+					//~ for (int j = 0; j < 1; j++)
+					//~ cout << res[i][j] << " ";
+					//~ cout << "\n";
+				//~ }
+				
+				//~ cout << endl;
+				
+				
 				j = j + 7;
 			}
 			
@@ -141,13 +152,64 @@ void decode(void)
 
 void multiply(int Hmat[3][7], int segMat[7][1], int res[3][1])
 {
-	for (int i = 0; i < 7; i++)
+	//~ for (int i = 0; i < 3; i++)
+	//~ {
+		//~ for (int j = 0; j < 1; j++)
+		//~ {
+			//~ res[i][j] = 0;
+			//~ for (int k = 0; k < 7; k++)
+			//~ res[i][j] += (Hmat[i][j] * segMat[k][j]);
+		//~ }
+	//~ }
+	
+	//~ res[0][0] = 0;
+	//~ res[0][0] += Hmat[0][0] * segMat[0][0];
+	//~ res[0][0] += Hmat[0][1] * segMat[1][0];
+	//~ res[0][0] += Hmat[0][2] * segMat[2][0];
+	//~ res[0][0] += Hmat[0][3] * segMat[3][0];
+	//~ res[0][0] += Hmat[0][4] * segMat[4][0];
+	//~ res[0][0] += Hmat[0][5] * segMat[5][0];
+	//~ res[0][0] += Hmat[0][6] * segMat[6][0];
+	
+	//~ cout << "Result0: "<< res[0][0] << endl;
+	
+	//~ res[1][0] = 0;
+	//~ res[1][0] += Hmat[1][0] * segMat[0][0];
+	//~ res[1][0] += Hmat[1][1] * segMat[1][0];
+	//~ res[1][0] += Hmat[1][2] * segMat[2][0];
+	//~ res[1][0] += Hmat[1][3] * segMat[3][0];
+	//~ res[1][0] += Hmat[1][4] * segMat[4][0];
+	//~ res[1][0] += Hmat[1][5] * segMat[5][0];
+	//~ res[1][0] += Hmat[1][6] * segMat[6][0];
+	
+	//~ cout << "Result1: "<< res[1][0] << endl;
+	
+	//~ res[2][0] = 0;
+	//~ res[2][0] += Hmat[2][0] * segMat[0][0];
+	//~ res[2][0] += Hmat[2][1] * segMat[1][0];
+	//~ res[2][0] += Hmat[2][2] * segMat[2][0];
+	//~ res[2][0] += Hmat[2][3] * segMat[3][0];
+	//~ res[2][0] += Hmat[2][4] * segMat[4][0];
+	//~ res[2][0] += Hmat[2][5] * segMat[5][0];
+	//~ res[2][0] += Hmat[2][6] * segMat[6][0];
+	
+	//~ cout << "Result2: "<< res[2][0] << endl;
+	
+	
+	
+	for (int i = 0; i < 3; i++)
 	{
+		res[i][0] = 0;
 		for (int j = 0; j < 7; j++)
 		{
-			res[i][j] = 0;
-			for (int k = 0; k < 7; k++)
-				res[i][j] += Hmat[i][j] * segMat[k][j];
+			res[i][0] += Hmat[i][j] * segMat[j][0];
 		}
+		cout << "Result" << i << " " << res[i][0] << "\n";
 	}
+	
+	cout << "\n";
+	
+
 } 
+
+
