@@ -18,9 +18,13 @@ ifstream infile;
 
 int buffer[7];
 
+
+// Given H Matrix that will be multiplied with 7-bit sequence
 int Hmatrix[3][7] = {{0,0,0,1,1,1,1},
 					 {0,1,1,0,0,1,1},
 					 {1,0,1,0,1,0,1}};
+
+int res[3][1]; //Stored Matrix (after multiplication)
 
 //Main Function
 int main(int argc, char *argv[])
@@ -91,7 +95,37 @@ void decode(void)
 				//~ cout << buffer[5];
 				//~ cout << buffer[6]<< endl;
 				
+				char strStore[7][1];
+				int k = 0;
 				
+				// Convert the string to a 1x7 Matrix
+				for (int a = 0; a < 7; a++)
+				{
+					for (int b = 0; b < 1; b++)
+					{
+						strStore[a][b] = str[k];
+						k++;
+					}
+				}
+				
+				multiply (strStore, Hmatrix, res);
+				
+				//~ // Test to print out matrix
+				//~ cout << "Test Matrix" << endl;
+				
+				
+				//~ for (int c = 0; c < 7; c++)
+				//~ {
+					//~ for (int d = 0; d < 1; d++)
+					//~ {
+						//~ if (strStore[c][d] == '\0')
+							//~ break;
+						//~ cout << strStore[c][d];
+					//~ }
+					//~ cout << endl; 
+				//~ }
+				
+				//~ cout << endl;
 				
 				j = j + 7;
 			}
@@ -104,3 +138,16 @@ void decode(void)
 		}
 	}
 }
+
+void multiply(int Hmat[3][7], int segMat[7][1], int res[3][1])
+{
+	for (int i = 0; i < 7; i++)
+	{
+		for (int j = 0; j < 7; j++)
+		{
+			res[i][j] = 0;
+			for (int k = 0; k < 7; k++)
+				res[i][j] += Hmat[i][j] * segMat[k][j];
+		}
+	}
+} 
