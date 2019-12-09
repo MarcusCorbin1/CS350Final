@@ -34,13 +34,13 @@ int main(int argc, char *argv[])
 	
 	cout << endl;
 	
-									 
-	for (int i = 0; i < 3; i++)
-	{
-		for (int j = 0; j < 7; j++)
-		cout << Hmatrix[i][j] << " ";
-		cout << endl;
-	}
+	//~ // Print H matrix								 
+	//~ for (int i = 0; i < 3; i++)
+	//~ {
+		//~ for (int j = 0; j < 7; j++)
+		//~ cout << Hmatrix[i][j] << " ";
+		//~ cout << endl;
+	//~ }
 }
 
 void decode(void)
