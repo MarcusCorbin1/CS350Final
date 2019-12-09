@@ -102,7 +102,6 @@ void decode(void)
 					for (int b = 0; b < 1; b++)
 					{
 						strStore[a][b] = str[k]-48; // Minus 48 to get 0 or 1
-						//cout << "strStore[a][b] is " << strStore[a][b] << "\n";
 						k++;
 					}
 				}
@@ -141,11 +140,11 @@ void decode(void)
 				j = j + 7;
 			}
 			
-			//Test print values of store
-			for (int k = 0; k < 16; k++)
-			{
-				cout << s[k] << endl;
-			}		
+			//~ //Test print values of store
+			//~ for (int k = 0; k < 16; k++)
+			//~ {
+				//~ cout << s[k] << endl;
+			//~ }		
 		}
 	}
 }
