@@ -4,12 +4,14 @@
 #include <cstdlib>
 #include <bitset>
 #include <string>
+#include <sstream>
 
 
 using namespace std;
 
 void decode(void);
 void multiply(int Hmat[3][7], int segMat[7][1], int res[3][1]);
+string binToAscii(string input);
 
 string fileName, concat;
 string outputFile = "result.txt"; 
@@ -21,7 +23,7 @@ int modBuff[3];
 int err = 0;
 string arr[2];
 
-
+string storeThis;
 
 
 // Given H Matrix that will be multiplied with 7-bit sequence
@@ -39,7 +41,16 @@ int main(int argc, char *argv[])
 	cin >> fileName;
 	decode();
 	
+	
+	
+	string finalString = binToAscii(storeThis); 
+	cout << "\nFinal output: " << endl;
+	cout << finalString << endl;
+	outFile << finalString;
+	
+	
 	outFile.close();
+	
 	cout << endl;
 	
 	cout << "# of errors = " << err << endl;
@@ -120,16 +131,18 @@ void decode(void)
 				}
 				
 				multiply (Hmatrix, strStore, res);
-				cout << endl;
+				//cout << endl;
 				
 				// Error Checking
 				if (res[0][0] == 0 && res[1][0] == 0 && res[2][0] == 0)
 				{
 					string split1 = concat.substr(j,4);
-					cout << split1 << endl;
+					//cout << split1 << endl;
+					
+					storeThis += split1;
 					
 					
-					outFile << split1;
+					//outFile << split1;
 					
 				}
 				else
@@ -171,11 +184,11 @@ void decode(void)
 				j = j + 7;
 			}
 			
-			//Test print values of store
-			for (int k = 0; k < 16; k++)
-			{
-				cout << s[k] << endl;
-			}		
+			//~ //Test print values of store
+			//~ for (int k = 0; k < 16; k++)
+			//~ {
+				//~ cout << s[k] << endl;
+			//~ }		
 		}
 	}
 	else
@@ -206,4 +219,19 @@ void multiply(int Hmat[3][7], int segMat[7][1], int res[3][1])
 	}
 } 
 
+string binToAscii(string input)
+{
+	stringstream sstream(input);
+	string output;
+	
+	while(sstream.good())
+    {
+        bitset<8> bits;
+        sstream >> bits;
+        char c = char(bits.to_ulong());
+        output += c;
+    }
+    
+    return output;
+}
 
