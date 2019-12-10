@@ -15,6 +15,8 @@ string fileName, concat;
 ifstream infile; 
 
 int buffer[7];
+int modBuff[3];
+int err = 0;
 
 
 // Given H Matrix that will be multiplied with 7-bit sequence
@@ -33,6 +35,8 @@ int main(int argc, char *argv[])
 	decode();
 	
 	cout << endl;
+	
+	cout << "# of errors = " << err << endl;
 	
 	//~ // Print H matrix								 
 	//~ for (int i = 0; i < 3; i++)
@@ -67,6 +71,8 @@ void decode(void)
 			a5.to_string() + a6.to_string() + a7.to_string() + 
 			a8.to_string() + a9.to_string() + a10.to_string() +
 			a11.to_string() + a12.to_string() + a13.to_string(); 
+			
+			cout << concat << "\n" <<endl;
 			
 			string s[16];
 			int j = 0;
@@ -108,6 +114,24 @@ void decode(void)
 				
 				multiply (Hmatrix, strStore, res);
 				
+				// Error Checking
+				if (res[0][0] == 0 && res[1][0] == 0 && res[2][0] == 0)
+				{
+					string firstPart = concat.substr(j, 4);
+					j = j+4;
+					string secondPart = concat.substr(j, 4);
+					
+					cout << firstPart << "\n";
+					cout << secondPart << "\n\n";
+					
+				}
+				else
+				{
+					cout << "You got an error" << endl;
+					err++;
+					
+				}
+							
 				//~ // Test to print out matrix
 				//~ cout << "Test Matrix" << endl;
 				
@@ -137,76 +161,46 @@ void decode(void)
 				//~ cout << endl;
 				
 				
-				j = j + 7;
+				//j = j + 7;
 			}
 			
-			//~ //Test print values of store
-			//~ for (int k = 0; k < 16; k++)
-			//~ {
-				//~ cout << s[k] << endl;
-			//~ }		
+			//Test print values of store
+			for (int k = 0; k < 16; k++)
+			{
+				cout << s[k] << endl;
+			}		
 		}
+	}
+	else
+	{
+		cout << "No file found, please run program again" << endl;
+		main(0, 0);
 	}
 }
 
 void multiply(int Hmat[3][7], int segMat[7][1], int res[3][1])
-{
-	//~ for (int i = 0; i < 3; i++)
-	//~ {
-		//~ for (int j = 0; j < 1; j++)
-		//~ {
-			//~ res[i][j] = 0;
-			//~ for (int k = 0; k < 7; k++)
-			//~ res[i][j] += (Hmat[i][j] * segMat[k][j]);
-		//~ }
-	//~ }
-	
-	//~ res[0][0] = 0;
-	//~ res[0][0] += Hmat[0][0] * segMat[0][0];
-	//~ res[0][0] += Hmat[0][1] * segMat[1][0];
-	//~ res[0][0] += Hmat[0][2] * segMat[2][0];
-	//~ res[0][0] += Hmat[0][3] * segMat[3][0];
-	//~ res[0][0] += Hmat[0][4] * segMat[4][0];
-	//~ res[0][0] += Hmat[0][5] * segMat[5][0];
-	//~ res[0][0] += Hmat[0][6] * segMat[6][0];
-	
-	//~ cout << "Result0: "<< res[0][0] << endl;
-	
-	//~ res[1][0] = 0;
-	//~ res[1][0] += Hmat[1][0] * segMat[0][0];
-	//~ res[1][0] += Hmat[1][1] * segMat[1][0];
-	//~ res[1][0] += Hmat[1][2] * segMat[2][0];
-	//~ res[1][0] += Hmat[1][3] * segMat[3][0];
-	//~ res[1][0] += Hmat[1][4] * segMat[4][0];
-	//~ res[1][0] += Hmat[1][5] * segMat[5][0];
-	//~ res[1][0] += Hmat[1][6] * segMat[6][0];
-	
-	//~ cout << "Result1: "<< res[1][0] << endl;
-	
-	//~ res[2][0] = 0;
-	//~ res[2][0] += Hmat[2][0] * segMat[0][0];
-	//~ res[2][0] += Hmat[2][1] * segMat[1][0];
-	//~ res[2][0] += Hmat[2][2] * segMat[2][0];
-	//~ res[2][0] += Hmat[2][3] * segMat[3][0];
-	//~ res[2][0] += Hmat[2][4] * segMat[4][0];
-	//~ res[2][0] += Hmat[2][5] * segMat[5][0];
-	//~ res[2][0] += Hmat[2][6] * segMat[6][0];
-	
-	//~ cout << "Result2: "<< res[2][0] << endl;
-	
-	
-	
+{	
+	//First part of for loop is for rows of result
 	for (int i = 0; i < 3; i++)
 	{
+		//Set result to zero to start
 		res[i][0] = 0;
+		
+		//Increment j for Hmat matrix and segMat matrix
 		for (int j = 0; j < 7; j++)
 		{
 			res[i][0] += Hmat[i][j] * segMat[j][0];
+			
+			//Preform Mod
+			res[i][0] = res[i][0] % 2;
 		}
-		cout << "Result" << i << " " << res[i][0] << "\n";
+		//cout << "Result" << i << ": " << res[i][0] << "\n";
+		//modBuff[i] = res[i][0];
 	}
 	
-	cout << "\n";
+	
+	
+	
 	
 
 } 
