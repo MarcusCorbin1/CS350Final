@@ -12,11 +12,16 @@ void decode(void);
 void multiply(int Hmat[3][7], int segMat[7][1], int res[3][1]);
 
 string fileName, concat;
+string outputFile = "result.txt"; 
 ifstream infile; 
+ofstream outFile;
 
 int buffer[7];
 int modBuff[3];
 int err = 0;
+string arr[2];
+
+
 
 
 // Given H Matrix that will be multiplied with 7-bit sequence
@@ -34,6 +39,7 @@ int main(int argc, char *argv[])
 	cin >> fileName;
 	decode();
 	
+	outFile.close();
 	cout << endl;
 	
 	cout << "# of errors = " << err << endl;
@@ -50,6 +56,7 @@ int main(int argc, char *argv[])
 void decode(void)
 {
 	infile.open(fileName.c_str(), ios::in | ios::binary);
+	outFile.open(outputFile.c_str(), ios::out | ios::binary);
 	
 	if (infile)
 	{
@@ -113,16 +120,16 @@ void decode(void)
 				}
 				
 				multiply (Hmatrix, strStore, res);
+				cout << endl;
 				
 				// Error Checking
 				if (res[0][0] == 0 && res[1][0] == 0 && res[2][0] == 0)
 				{
-					string firstPart = concat.substr(j, 4);
-					j = j+4;
-					string secondPart = concat.substr(j, 4);
+					string split1 = concat.substr(j,4);
+					cout << split1 << endl;
 					
-					cout << firstPart << "\n";
-					cout << secondPart << "\n\n";
+					
+					outFile << split1;
 					
 				}
 				else
@@ -161,7 +168,7 @@ void decode(void)
 				//~ cout << endl;
 				
 				
-				//j = j + 7;
+				j = j + 7;
 			}
 			
 			//Test print values of store
@@ -197,12 +204,6 @@ void multiply(int Hmat[3][7], int segMat[7][1], int res[3][1])
 		//cout << "Result" << i << ": " << res[i][0] << "\n";
 		//modBuff[i] = res[i][0];
 	}
-	
-	
-	
-	
-	
-
 } 
 
 
