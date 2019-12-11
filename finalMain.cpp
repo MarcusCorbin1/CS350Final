@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
 	
 	
 	strSave = getFullBinary();
-	cout << strSave << endl;
+	cout << strSave << "\n\n";
 	outFile << strSave;
 	
 	decode(strSave);
@@ -54,10 +54,10 @@ int main(int argc, char *argv[])
 	
 	cout << "# of errors = " << err << endl;
 	
-	//~ string finalString = binToAscii(storeThis); 
-	//~ cout << "\nFinal output: " << endl;
-	//~ cout << finalString << endl;
-	//~ outFile << finalString;
+	string finalString = binToAscii(storeThis); 
+	cout << "\nFinal output: " << endl;
+	cout << finalString << endl;
+	outFile << finalString;
 	
 	
 	outFile.close();
@@ -83,7 +83,7 @@ void decode(string strSave)
 		string str = strSave.substr(first, 7);
 		
 		
-		cout << str << endl;
+		//cout << str << endl;
 		
 		int strStore[7][1];
 		int k = 0;
@@ -102,7 +102,7 @@ void decode(string strSave)
 		// Error Checking
 		if (res[0][0] == 0 && res[1][0] == 0 && res[2][0] == 0)
 		{
-			cout << "No Error" << endl;
+			//cout << "No Error" << endl;
 			string split1 = strSave.substr(first,4);
 			//cout << split1 << endl;
 			
@@ -113,14 +113,14 @@ void decode(string strSave)
 		}
 		else
 		{
-			cout << "You got an error" << endl;
+			//cout << "You got an error" << endl;
 			err++;
 			
 		}
 		
 		multiply (Hmatrix, strStore, res);
 		
-		cout << endl;
+		//cout << endl;
 		
 		first = first + 7;
 	}
@@ -142,7 +142,7 @@ void multiply(int Hmat[3][7], int segMat[7][1], int res[3][1])
 			//Preform Mod
 			res[i][0] = res[i][0] % 2;
 		}
-		cout << "Result" << i << ": " << res[i][0] << "\n";
+		//cout << "Result" << i << ": " << res[i][0] << "\n";
 		//modBuff[i] = res[i][0];
 	}
 } 
