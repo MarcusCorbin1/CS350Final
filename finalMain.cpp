@@ -25,19 +25,17 @@ void multiply(int Hmat[3][7], int segMat[7][1], int res[3][1]);
 string binToAscii(string input);
 string getFullBinary(void);
 
-
-string fileName, concat, full;
-string outputFile = "result.txt"; 
+// Stream file declarations
 ifstream infile; 
 ofstream outFile;
 
+// Variable declarations
+string fileName, outputName, concat, full, storeThis, strSave;
+string outputFile; 
 int buffer[7];
-int modBuff[3];
 int err = 0;
 char c;
 string arr[2];
-
-string storeThis, strSave;
 
 
 // Given H Matrix that will be multiplied with 7-bit sequence
@@ -53,6 +51,10 @@ int main(int argc, char *argv[])
 	// Ask use which file user wants to encode
 	cout << "File to open: ";
 	cin >> fileName;
+	
+	cout << "Output file name: ";
+	cin >> outputFile;
+	
 	
 	// Set .enc file to a large string
 	strSave = getFullBinary();
@@ -72,7 +74,7 @@ int main(int argc, char *argv[])
 	
 	
 	outFile.close();
-	
+	infile.close();
 	
 }
 
@@ -126,8 +128,103 @@ void decode(string strSave)
 			
 			storeThis += split1;
 			
-			//outFile << split1;
+		}
+		else if (res[0][0] == 0 && res[1][0] == 0 && res[2][0] == 1)
+		{
+			cout << "1st  bit error" << endl;
+			cout << "string is: " << strSave.substr(first, 7) << endl;
 			
+			string split1 = to_string(((strStore[0][0] + 1) % 2));
+			cout << "split1: " << split1 << endl; 
+			
+			string split2 = strSave.substr(first+1,6);
+			
+			cout << "split2: " << split2 << endl;
+			
+			string together = split1 + split2;
+			cout << "together:  " << together << "\n\n";
+			
+			storeThis += together;
+			
+			//cout << storeThis << "\n\n";
+			err++;
+		}
+		else if (res[0][0] == 0 && res[1][0] == 1 && res[2][0] == 0)
+		{
+			cout << "2nd bit error" << endl;
+			cout << "string is: " << strSave.substr(first, 7) << endl;
+			
+			string split1 = strSave.substr(first,1);
+			cout << "split1: " << split1 << endl;
+			
+			string split2 = to_string(((strStore[1][0] + 1) % 2));
+			cout << "split2: " << split2 << endl;
+			
+			string split3 = strSave.substr(first+2, 5);
+			cout << "split3: " << split3 << endl;
+			
+			string together = split1 + split2 + split3;
+			cout << "together:  " << together << "\n\n";
+			
+			storeThis += together;
+			err++;
+		}
+		else if (res[0][0] == 0 && res[1][0] == 1 && res[2][0] == 1)
+		{
+			cout << "3rd bit error" << endl;
+			cout << "string is: " << strSave.substr(first, 7) << endl;
+			
+			string split1 =  strSave.substr(first, 2);
+			cout << "split1: " << split1 << endl; 
+			
+			string split2 =  to_string(((strStore[2][0] + 1) % 2));
+			cout << "split2: " << split2 << endl; 
+			
+			string split3 = strSave.substr(first+3,4);
+			cout << "split3: " << split3 << endl; 
+			
+			string together = split1 + split2 + split3;
+			cout << "together:  " << together << "\n\n";
+			
+			storeThis += together;
+			
+			err++;
+		}
+		else if (res[0][0] == 1 && res[1][0] == 0 && res[2][0] == 0)
+		{
+			cout << "4th bit error" << endl;
+			cout << "string is: " << strSave.substr(first, 7) << endl;
+			
+			string split1 = strSave.substr(first, 3);
+			cout << "split1: " << split1 << endl;
+			
+			string split2 = to_string(((strStore[3][0] + 1) % 2));
+			cout << "split2: " << split2 << endl;
+			
+			string split3 = strSave.substr(first+4, 3);
+			cout << "split3: " << split3 << endl;
+			
+			string together = split1 + split2 + split3;
+			cout << "together:  " << together << "\n\n";
+			
+			storeThis += together;
+			
+			err++;
+		}
+		else if (res[0][0] == 1 && res[1][0] == 0 && res[2][0] == 1)
+		{
+			//cout << "5th bit error" << endl;
+			err++;
+		}
+		else if (res[0][0] == 1 && res[1][0] == 1 && res[2][0] == 0)
+		{
+			//cout << "6th bit error" << endl;
+			err++;
+		}
+		else if (res[0][0] == 1 && res[1][0] == 1 && res[2][0] == 1)
+		{
+			//cout << "7th bit error" << endl;
+			err++;
 		}
 		else
 		{
@@ -142,6 +239,7 @@ void decode(string strSave)
 		
 		first = first + 7;
 	}
+	//cout << "StoreThis: " << storeThis << endl;
 }
 
 /** Multiplies two matrices together to get a resultant matrix
@@ -167,7 +265,6 @@ void multiply(int Hmat[3][7], int segMat[7][1], int res[3][1])
 			res[i][0] = res[i][0] % 2;
 		}
 		//cout << "Result" << i << ": " << res[i][0] << "\n";
-		//modBuff[i] = res[i][0];
 	}
 } 
 
