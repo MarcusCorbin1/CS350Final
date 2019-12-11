@@ -118,6 +118,7 @@ void decode(string strSave)
 			}
 		}
 		
+		multiply (Hmatrix, strStore, res);
 		
 		// Error Checking
 		if (res[0][0] == 0 && res[1][0] == 0 && res[2][0] == 0)
@@ -137,7 +138,7 @@ void decode(string strSave)
 			string split1 = to_string(((strStore[0][0] + 1) % 2));
 			cout << "split1: " << split1 << endl; 
 			
-			string split2 = strSave.substr(first+1,6);
+			string split2 = strSave.substr(first+1,3);
 			
 			cout << "split2: " << split2 << endl;
 			
@@ -160,7 +161,7 @@ void decode(string strSave)
 			string split2 = to_string(((strStore[1][0] + 1) % 2));
 			cout << "split2: " << split2 << endl;
 			
-			string split3 = strSave.substr(first+2, 5);
+			string split3 = strSave.substr(first+2, 2);
 			cout << "split3: " << split3 << endl;
 			
 			string together = split1 + split2 + split3;
@@ -180,7 +181,7 @@ void decode(string strSave)
 			string split2 =  to_string(((strStore[2][0] + 1) % 2));
 			cout << "split2: " << split2 << endl; 
 			
-			string split3 = strSave.substr(first+3,4);
+			string split3 = strSave.substr(first+3,1);
 			cout << "split3: " << split3 << endl; 
 			
 			string together = split1 + split2 + split3;
@@ -201,10 +202,7 @@ void decode(string strSave)
 			string split2 = to_string(((strStore[3][0] + 1) % 2));
 			cout << "split2: " << split2 << endl;
 			
-			string split3 = strSave.substr(first+4, 3);
-			cout << "split3: " << split3 << endl;
-			
-			string together = split1 + split2 + split3;
+			string together = split1 + split2;
 			cout << "together:  " << together << "\n\n";
 			
 			storeThis += together;
@@ -233,7 +231,7 @@ void decode(string strSave)
 			
 		}
 		
-		multiply (Hmatrix, strStore, res);
+		
 		
 		//cout << endl;
 		
