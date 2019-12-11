@@ -1,3 +1,13 @@
+/**
+ * @file finalMain.cpp
+ *
+ * @brief This is a program that take the input of a .enc file
+ *
+ * @author  Marcus Corbin
+ * Contact: marcus.corbin@mnsu.edu
+ *
+ */
+
 // Includes
 #include <iostream>
 #include <fstream>
@@ -9,6 +19,7 @@
 
 using namespace std;
 
+// Function Prototypes
 void decode(string strSave);
 void multiply(int Hmat[3][7], int segMat[7][1], int res[3][1]);
 string binToAscii(string input);
@@ -43,14 +54,14 @@ int main(int argc, char *argv[])
 	cout << "File to open: ";
 	cin >> fileName;
 	
-	
+	// Set .enc file to a large string
 	strSave = getFullBinary();
 	cout << strSave << "\n\n";
-	outFile << strSave;
 	
+	// Decode the .enc file
 	decode(strSave);
 	
-	cout << endl;
+	cout << endl; // Just another 
 	
 	cout << "# of errors = " << err << endl;
 	
@@ -65,6 +76,13 @@ int main(int argc, char *argv[])
 	
 }
 
+
+/** Decodes the .enc file 
+*
+* If no verbosity is specified, inherit from parent
+*
+* @param strSave a binary string from the .enc file
+*/
 void decode(string strSave)
 {
 	
@@ -126,6 +144,12 @@ void decode(string strSave)
 	}
 }
 
+/** Multiplies two matrices together to get a resultant matrix
+*
+* @param Hmat 	the H matrix that will be multiplied
+* @param segMat 7-bit code block in a 7x1 matrix
+* @param res  	result matrix after multiplication of Hmat and segMat
+*/
 void multiply(int Hmat[3][7], int segMat[7][1], int res[3][1])
 {	
 	//First part of for loop is for rows of result
@@ -147,6 +171,10 @@ void multiply(int Hmat[3][7], int segMat[7][1], int res[3][1])
 	}
 } 
 
+/** Convert final binary output string to ASCII.
+*
+* @param input the input string that will be converted to ASCII.
+*/
 string binToAscii(string input)
 {
 	stringstream sstream(input);
@@ -163,6 +191,10 @@ string binToAscii(string input)
     return output;
 }
 
+/** Translates the .enc file into a large string.
+
+* @return full the full string that will be thrown into the decoder.
+*/
 string getFullBinary()
 {
 	infile.open(fileName.c_str(), ios::in | ios::binary);
