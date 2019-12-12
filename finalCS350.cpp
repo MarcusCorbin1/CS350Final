@@ -7,7 +7,6 @@
  * Contact: marcus.corbin@mnsu.edu
  *
  */
-
 // Includes
 #include <iostream>
 #include <fstream>
@@ -67,17 +66,16 @@ int main(int argc, char *argv[])
 	
 	cout << "# of errors = " << err << endl;
 	
-	string finalString = binToAscii(storeThis); 
+	string finalString = binToAscii(storeThis);  //storeThis to ASCII
 	cout << "\nFinal output: " << endl;
 	cout << finalString << endl;
-	outFile << finalString;
+	outFile << finalString; // Write output to file
 	
-	
+	//Close files
 	outFile.close();
 	infile.close();
 	
 }
-
 
 /** Decodes the .enc file 
 *
@@ -87,13 +85,12 @@ int main(int argc, char *argv[])
 */
 void decode(string strSave)
 {
-	
+	// Open the outFile for future use
 	outFile.open(outputFile.c_str(), ios::out | ios::binary);
 	
+	// Get the size of the input file
 	int lengthBin = strSave.size();
-	cout << "Length " << lengthBin << "\n\n";
-	
-	
+	cout << "Length: " << lengthBin << "\n\n";
 	
 	int first = 0;
 	
@@ -123,124 +120,90 @@ void decode(string strSave)
 		// Error Checking
 		if (res[0][0] == 0 && res[1][0] == 0 && res[2][0] == 0)
 		{
-			//cout << "No Error" << endl;
 			string split1 = strSave.substr(first,4);
-			//cout << split1 << endl;
 			
 			storeThis += split1;
 			
 		}
+		// Switch 1st bit
 		else if (res[0][0] == 0 && res[1][0] == 0 && res[2][0] == 1)
-		{
-			cout << "1st  bit error" << endl;
-			cout << "string is: " << strSave.substr(first, 7) << endl;
-			
+		{	
 			string split1 = to_string(((strStore[0][0] + 1) % 2));
-			cout << "split1: " << split1 << endl; 
-			
 			string split2 = strSave.substr(first+1,3);
-			
-			cout << "split2: " << split2 << endl;
-			
 			string together = split1 + split2;
-			cout << "together:  " << together << "\n\n";
+
 			
 			storeThis += together;
-			
-			//cout << storeThis << "\n\n";
+
 			err++;
 		}
+		
+		// Switch 2nd bit
 		else if (res[0][0] == 0 && res[1][0] == 1 && res[2][0] == 0)
-		{
-			cout << "2nd bit error" << endl;
-			cout << "string is: " << strSave.substr(first, 7) << endl;
-			
+		{			
 			string split1 = strSave.substr(first,1);
-			cout << "split1: " << split1 << endl;
-			
 			string split2 = to_string(((strStore[1][0] + 1) % 2));
-			cout << "split2: " << split2 << endl;
-			
 			string split3 = strSave.substr(first+2, 2);
-			cout << "split3: " << split3 << endl;
-			
+
 			string together = split1 + split2 + split3;
-			cout << "together:  " << together << "\n\n";
 			
 			storeThis += together;
 			err++;
 		}
+		
+		// Switch 3rd bit
 		else if (res[0][0] == 0 && res[1][0] == 1 && res[2][0] == 1)
-		{
-			cout << "3rd bit error" << endl;
-			cout << "string is: " << strSave.substr(first, 7) << endl;
-			
+		{		
 			string split1 =  strSave.substr(first, 2);
-			cout << "split1: " << split1 << endl; 
-			
 			string split2 =  to_string(((strStore[2][0] + 1) % 2));
-			cout << "split2: " << split2 << endl; 
-			
 			string split3 = strSave.substr(first+3,1);
-			cout << "split3: " << split3 << endl; 
-			
 			string together = split1 + split2 + split3;
-			cout << "together:  " << together << "\n\n";
 			
 			storeThis += together;
 			
 			err++;
 		}
+		// Switch 4th bit
 		else if (res[0][0] == 1 && res[1][0] == 0 && res[2][0] == 0)
-		{
-			cout << "4th bit error" << endl;
-			cout << "string is: " << strSave.substr(first, 7) << endl;
-			
+		{		
 			string split1 = strSave.substr(first, 3);
-			cout << "split1: " << split1 << endl;
-			
 			string split2 = to_string(((strStore[3][0] + 1) % 2));
-			cout << "split2: " << split2 << endl;
-			
 			string together = split1 + split2;
-			cout << "together:  " << together << "\n\n";
 			
 			storeThis += together;
 			
 			err++;
 		}
+		
+		// Output first 4 bits (5 doesn't change the first 4)
 		else if (res[0][0] == 1 && res[1][0] == 0 && res[2][0] == 1)
 		{
-			//cout << "5th bit error" << endl;
 			string split1 = strSave.substr(first,4);
-			//cout << split1 << endl;
 			
 			storeThis += split1;
 			err++;
 		}
+		
+		// Output first 4 bits (6 doesn't change the first 4)
 		else if (res[0][0] == 1 && res[1][0] == 1 && res[2][0] == 0)
 		{
-			//cout << "6th bit error" << endl;
 			string split1 = strSave.substr(first,4);
-			//cout << split1 << endl;
 			
 			storeThis += split1;
 			err++;
 		}
+		
+		// Output first 4 bits (7 doesn't change the first 4)
 		else if (res[0][0] == 1 && res[1][0] == 1 && res[2][0] == 1)
 		{
-			//cout << "7th bit error" << endl;
 			string split1 = strSave.substr(first,4);
-			//cout << split1 << endl;
 			
 			storeThis += split1;
 			err++;
 		}
 		else
 		{
-			//cout << "You got an error" << endl;
 			err++;
-			
 		}
 		
 		
@@ -304,16 +267,27 @@ string binToAscii(string input)
 string getFullBinary()
 {
 	infile.open(fileName.c_str(), ios::in | ios::binary);
-
-	string full;	
-	while (infile.get(c))
-	{
-		for (int i = 7; i >= 0; i--)
-		{
-			full += to_string(((c >> i) & 1));
-		}
-	}
-
+	string full;
 	
+	// If a file exists
+	if (infile)
+	{
+		// Convert binary file into a large string
+		while (infile.get(c))
+		{
+			for (int i = 7; i >= 0; i--)
+			{
+				full += to_string(((c >> i) & 1));
+			}
+		}
+		
+	}
+	//If a file doesn't exist
+	else
+	{
+		cout << "Error, file not found. Re-Run Program" << "\n\n";
+	}
+	
+	// Return large string back to main function
 	return full;
 }
