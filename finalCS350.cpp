@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
 	
 	// Set .enc file to a large string
 	strSave = getFullBinary();
-	cout << strSave << "\n\n";
+	//cout << strSave << "\n\n";
 	
 	// Decode the .enc file
 	decode(strSave);
@@ -67,8 +67,8 @@ int main(int argc, char *argv[])
 	cout << "# of errors = " << err << endl;
 	
 	string finalString = binToAscii(storeThis);  //storeThis to ASCII
-	cout << "\nFinal output: " << endl;
-	cout << finalString << endl;
+	
+	cout << "\nFile saved Externally" << endl;
 	outFile << finalString; // Write output to file
 	
 	//Close files
